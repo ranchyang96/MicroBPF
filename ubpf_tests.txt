@@ -1,0 +1,88 @@
+Apache
+Remove a container: sudo docker container rm ca0217b48b238e6eff9bfec2e3bd3712806fe2486dd0e8675d388de24515f135
+Check running containers: sudo docker ps -a	
+sudo docker run -dit --name tecmint-web -p 80:80 -v /home/user/website/:/usr/local/apache2/htdocs/ httpd:2.4
+sudo docker run --rm jordi/ab -k -c 10 -n 1000 http://172.17.0.2:80/docker.html
+result:
+This is ApacheBench, Version 2.3 <$Revision: 1826891 $>
+Copyright 1996 Adam Twiss, Zeus Technology Ltd, http://www.zeustech.net/
+Licensed to The Apache Software Foundation, http://www.apache.org/
+
+Benchmarking 172.17.0.2 (be patient)
+Completed 100 requests
+Completed 200 requests
+Completed 300 requests
+Completed 400 requests
+Completed 500 requests
+Completed 600 requests
+Completed 700 requests
+Completed 800 requests
+Completed 900 requests
+Completed 1000 requests
+Finished 1000 requests
+
+
+Server Software:        Apache/2.4.39
+Server Hostname:        172.17.0.2
+Server Port:            80
+
+Document Path:          /docker.html
+Document Length:        190 bytes
+
+Concurrency Level:      10
+Time taken for tests:   0.081 seconds
+Complete requests:      1000
+Failed requests:        0
+Keep-Alive requests:    997
+Total transferred:      470878 bytes
+HTML transferred:       190000 bytes
+Requests per second:    12312.84 [#/sec] (mean)
+Time per request:       0.812 [ms] (mean)
+Time per request:       0.081 [ms] (mean, across all concurrent requests)
+Transfer rate:          5661.96 [Kbytes/sec] received
+
+Connection Times (ms)
+              min  mean[+/-sd] median   max
+Connect:        0    0   0.1      0       1
+Processing:     0    1   0.6      1       4
+Waiting:        0    1   0.6      1       4
+Total:          0    1   0.6      1       4
+
+Percentage of the requests served within a certain time (ms)
+  50%      1
+  66%      1
+  75%      1
+  80%      1
+  90%      2
+  95%      2
+  98%      2
+  99%      3
+ 100%      4 (longest request)
+
+Running wrk with Apache
+sudo wrk -t 12 -c 400 -d 30s http://172.17.0.2:80/docker.html
+Running 30s test @ http://172.17.0.2:80/docker.html
+  12 threads and 400 connections
+  Thread Stats   Avg      Stdev     Max   +/- Stdev
+    Latency     3.68ms    6.78ms 231.88ms   97.10%
+    Req/Sec     1.78k     2.04k   30.25k    86.27%
+  515255 requests in 30.10s, 180.92MB read
+  Non-2xx or 3xx responses: 515255
+Requests/sec:  17119.52
+Transfer/sec:      6.01MB
+
+
+Redis example
+intra-host mode
+sudo docker run --name redis -d redis
+sudo docker run -it --rm --link redis:redis clue/redis-benchmark —n 10 -c 1
+result:
+====== —n 10 -c 1 ======
+  100000 requests completed in 1.22 seconds
+  50 parallel clients
+  3 bytes payload
+  keep alive: 1
+
+99.82% <= 1 milliseconds
+100.00% <= 1 milliseconds
+82169.27 requests per second
