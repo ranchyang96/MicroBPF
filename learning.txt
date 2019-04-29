@@ -2,7 +2,7 @@ move file between containers and host
 container to host:
 sudo docker cp CONTAINER_NAME:path path
 host to container:
-docker exec -i CONTAINER_NAME sh -c 'cat > destpath' < frompath
+sudo docker exec -i CONTAINER_NAME sh -c 'cat > destpath' < frompath
 inspect container info:
 sudo docker inspect CONTAINER_ID_OR_NAME
 
@@ -27,3 +27,7 @@ docker attach f357e2faab77 # reattach the terminal & stdin
 Apache benchmark:
 sudo docker run --rm jordi/ab -k -c 10 -n 1000 http://172.17.0.2:80/docker.html
 
+Commands running in container:
+python tcpack.py -p 80 -o
+python tcpsock.py > /usr/local/bcc/tcpsock
+python tcp.py -p 80 -o
