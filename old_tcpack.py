@@ -272,25 +272,14 @@ class Data_ipv4(ct.Structure):
 # process event
 def print_ipv4_event(cpu, data, size):
     event = ct.cast(data, ct.POINTER(Data_ipv4)).contents
-    print("3 %-20s -> %-20s %-10s %-10s %-12s (%s) %-8s %-8s %-10s %-10s %-10s %-10s %-10s %-10s %-10s %-10s %-10s %-20s %-10s" % (
+    print("3 %-20s -> %-20s %-10s %-10s %-8s %-8s %-12s (%s)" % (
         "%s:%d" % (inet_ntop(AF_INET, pack('I', event.saddr)), event.sport),
         "%s:%d" % (inet_ntop(AF_INET, pack('I', event.daddr)), event.dport),
         "%d" % (event.seq),
         "%d" % (event.ack),
-        tcp.tcpstate[event.state], tcp.flags2str(event.tcpflags),
         "%d" % (event.srtt >> 3),
         "%d" % (event.snd_cwnd),
-        "%d" % (event.rcv_wnd),
-        "%d" % (event.total_retrans),
-        "%d" % (event.fastRe),
-        "%d" % (event.timeout),
-        "%d" % (event.bytes_acked),
-        "%d" % (event.bytes_received),
-        "%d" % (event.srtt_sum),
-        "%d" % (event.srtt_counter),
-        "%d" % (event.packets_out),
-        "%d" % (event.duration),
-        "%d" % (event.bytes_inflight)))
+        tcp.tcpstate[event.state], tcp.flags2str(event.tcpflags)))
 
 # initialize BPF
 b = BPF(text=bpf_text)

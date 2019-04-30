@@ -25,7 +25,7 @@ docker start f357e2faab77 # restart it in the background
 docker attach f357e2faab77 # reattach the terminal & stdin
 
 Apache benchmark:
-sudo docker run --rm jordi/ab -k -c 10 -n 1000 http://172.17.0.2:80/docker.html
+sudo docker run --rm jordi/ab -k -c 10 -n 1000 http://172.17.0.3:80/docker.html
 
 Commands running in container:
 python tcpack.py -p 80 -o

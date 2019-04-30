@@ -1,8 +1,0 @@
-tcpack.py:
-num, SADDR:SPORT, ->, DADDR:DPORT, SEQ, ACK, RTT(us), CWND, STATE, (FLAGS)
-
-tcp.py:
-num, SADDR:SPORT, ->, DADDR:DPORT, SEQ, ACK, TOTAL, MAC_IN, IP_IN, TCP_IN, APP, TCP_OUT, IP_OUT, MAC_OUT
-
-tcpsock.py:
-SADDR, SPORT, DADDR, DPORT, WriteBytes, KB, ReadBytes, KB

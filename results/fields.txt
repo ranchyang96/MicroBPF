@@ -1,0 +1,8 @@
+tcpack.py:
+num, SADDR:SPORT, ->, DADDR:DPORT, SEQ, ACK, STATE, (FLAGS), RTT(us), CWND, RWND, retransmission, fastRetransmission, timeout, bytes_acked, bytes_received, sum of sample rtt, counter of sample rtt, packets_out, duration, inflight_bytes
+
+tcp.py:
+num, SADDR:SPORT, ->, DADDR:DPORT, SEQ, ACK, TOTAL, MAC_IN, IP_IN, TCP_IN, APP, TCP_OUT, IP_OUT, MAC_OUT
+
+tcpsock.py:
+SADDR, SPORT, DADDR, DPORT, WriteBytes, KB, ReadBytes, KB
