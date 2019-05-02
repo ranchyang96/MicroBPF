@@ -9,6 +9,14 @@ sudo docker inspect CONTAINER_ID_OR_NAME
 remote execution of commands in container:
 docker exec -i CONTAINER_NAME sh -c 'asdfasfasdfasf'
 
+start apache server image:
+docker run -dit --name tecmint-web -p 80:80 -v /home/user/website/:/usr/local/apache2/htdocs/ httpd:2.4
+
+start iperf server on a docker container:
+sudo docker exec -i tecmint-web sh -c 'iperf -s'
+
+sudo docker stats ID
+
 start the ubpf container:
 sudo docker build -t bcc .
 sudo docker run -it --rm \
