@@ -44,4 +44,4 @@ New ones:
 sudo apt-get install apache2 libapache2-mod-php
 apt-get install apache2-utils
 sudo systemctl start apache2.service
-ab -n 10000 -c 100 192.168.1.205/index.html
+ab -n 10000 -c 100 172.16.222.127/index.html
