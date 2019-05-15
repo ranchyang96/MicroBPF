@@ -2,7 +2,7 @@
 
 echo "tcp measures on container"
 #sudo docker exec -i brave_heyrovsky sh -c 'timeout 30s python tcpack.py -p 80 -o & timeout 30s python tcp.py -p 80 -o & timeout 30s python tcpsock.py > /usr/local/bcc/tcpsock & ' & sleep 10; sudo docker run --rm jordi/ab -k -c $1 -n $2 http://172.17.0.2:80/docker.html
-sudo docker exec -i brave_heyrovsky sh -c 'timeout 30s python tcpack.py -p 80 -o & timeout 30s python tcp.py -p 80 -o & timeout 30s python tcpsock.py > /usr/local/bcc/tcpsock & ' & sleep 10; sudo docker run --rm --label "com.docker-tc.enabled=1" --label "com.docker-tc.limit=70gbps" jordi/ab -k -c $1 -n $2 http://172.17.0.2:80/docker.html
+sudo docker exec -i brave_heyrovsky sh -c 'timeout 50s python tcpack.py -p 80 -o & timeout 50s python tcp.py -p 80 -o & timeout 50s python tcpsock.py > /usr/local/bcc/tcpsock & ' & sleep 10; sudo docker run --rm --label "com.docker-tc.enabled=1" --label "com.docker-tc.limit=70gbps" jordi/ab -k -c $1 -n $2 http://172.17.0.3:80/docker.html
 
 sleep 10
 
@@ -34,9 +34,9 @@ awk 'BEGIN{for(i=9;i<=NF;i++) {max[i]=0; min[i]=1000000000000000000000}} \
 	}' /home/ranchyang96/Research/MicroBPF/results/ApacheBenchmark/a$1_$2/tcpack >> /home/ranchyang96/Research/MicroBPF/results/ApacheBenchmark/a$1_$2/result.txt
 
 echo 'tcp.py results:' >> /home/ranchyang96/Research/MicroBPF/results/ApacheBenchmark/a$1_$2/result.txt
-awk 'BEGIN{for(i=8;i<=NF;i++) {max[i]=0; min[i]=1000000000000000000000}} \
-	{for(i=8;i<=NF;i++) {sum[i] += $i; sumsq[i] += ($i)^2; if ($i<min[i]) min[i]=$i; if ($i>max[i]) max[i]=$i}} \
-	END {for (i=8;i<=NF;i++) {\
+awk 'BEGIN{for(i=7;i<=NF;i++) {max[i]=0; min[i]=1000000000000000000000}} \
+	{for(i=7;i<=NF;i++) {sum[i] += $i; sumsq[i] += ($i)^2; if ($i<min[i]) min[i]=$i; if ($i>max[i]) max[i]=$i}} \
+	END {for (i=7;i<=NF;i++) {\
 	printf "%f %f %f %f\n", sum[i]/NR, sqrt((sumsq[i]-sum[i]^2/NR)/NR), max[i], min[i]}\
 	}' /home/ranchyang96/Research/MicroBPF/results/ApacheBenchmark/a$1_$2/tcp >> /home/ranchyang96/Research/MicroBPF/results/ApacheBenchmark/a$1_$2/result.txt
 

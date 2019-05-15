@@ -1,22 +1,21 @@
 #!/bin/bash
 
-echo "tcp measures on container"
-#sudo docker exec -i brave_heyrovsky sh -c 'timeout 30s python tcpack.py -p 80 -o & timeout 30s python tcp.py -p 80 -o & timeout 30s python tcpsock.py > /usr/local/bcc/tcpsock & ' & sleep 10; sudo docker run --rm jordi/ab -k -c $1 -n $2 http://172.17.0.2:80/docker.html
-sudo docker exec -i brave_heyrovsky sh -c 'timeout 30s python tcpack.py -p 80 -o & timeout 30s python tcp.py -p 80 -o & timeout 30s python tcpsock.py > /usr/local/bcc/tcpsock & ' & sleep 10; sudo docker run --rm --label "com.docker-tc.enabled=1" --label "com.docker-tc.limit=70gbps" jordi/ab -k -c $1 -n $2 http://172.17.0.2:80/docker.html
+echo "tcp measures"
+sh -c 'timeout 30s python tcpack.py -p 80 -o & timeout 30s python tcp.py -p 80 -o & timeout 30s python tcpsock.py > /usr/local/bcc/tcpsock & ' & sleep 10; ab -k -c $1 -n $2 localhost/index.html
 
 sleep 10
 
-echo "docker kill python processes"
-sudo docker exec -i brave_heyrovsky sh -c 'pkill -f python'
+#echo "docker kill python processes"
+#sudo docker exec -i brave_heyrovsky sh -c 'pkill -f python'
 
 rm -rf /home/ranchyang96/Research/MicroBPF/results/ApacheBenchmark/a$1_$2
 
 mkdir /home/ranchyang96/Research/MicroBPF/results/ApacheBenchmark/a$1_$2
 
-echo "copying results from docker"
-sudo docker cp brave_heyrovsky:/usr/local/bcc/tcpack /home/ranchyang96/Research/MicroBPF/results/ApacheBenchmark/a$1_$2/
-sudo docker cp brave_heyrovsky:/usr/local/bcc/tcpsock /home/ranchyang96/Research/MicroBPF/results/ApacheBenchmark/a$1_$2/
-sudo docker cp brave_heyrovsky:/usr/local/bcc/tcp /home/ranchyang96/Research/MicroBPF/results/ApacheBenchmark/a$1_$2/
+echo "copying results"
+cp /usr/local/bcc/tcpack /home/ranchyang96/Research/MicroBPF/results/ApacheBenchmark/a$1_$2/
+cp /usr/local/bcc/tcpsock /home/ranchyang96/Research/MicroBPF/results/ApacheBenchmark/a$1_$2/
+cp /usr/local/bcc/tcp /home/ranchyang96/Research/MicroBPF/results/ApacheBenchmark/a$1_$2/
 
 echo "process tcpsock"
 sed -i '1d' /home/ranchyang96/Research/MicroBPF/results/ApacheBenchmark/a$1_$2/tcpsock
